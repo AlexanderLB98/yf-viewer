@@ -1,0 +1,202 @@
+experiment_name: "carPrice_pipeline_test"
+log_path: "logs"
+tracking_path: "output/mlruns"
+data_path: "data/processed/carPrice_processed_scaled.csv"
+save_dir: "output"
+
+ml:
+  target_column: 'price'
+  params:
+    dataset:
+      test_size: 0.2
+      random_state: 42
+    kfold:
+      n_splits:
+        - 5
+        - 10
+        - 15
+        - 20
+  metrics:
+    - 'r2'
+    - 'neg_mean_absolute_error'
+    - 'neg_mean_squared_error'
+    - 'neg_mean_absolute_percentage_error'
+    - 'neg_root_mean_squared_error'
+  models:
+	linear_regression:
+      fit_intercept:
+        - true
+        - false
+    polynomial_regression:
+      polynomialfeatures__degree:
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+      polynomialfeatures__include_bias:
+        - true
+        - false
+      polynomialfeatures__interaction_only:
+        - true
+        - false
+      linearregression__fit_intercept:
+        - true
+        - false
+    ada_boost_regressor:
+      learning_rate:
+        - 0.1
+        - 0.01
+        - 0.5
+        - 0.001
+      n_estimators:
+        - 8
+        - 16
+        - 32
+        - 64
+        - 128
+        - 256
+    cat_boost_regressor:
+      depth:
+        - 6
+        - 8
+        - 10
+      learning_rate:
+        - 0.01
+        - 0.05
+        - 0.1
+      iterations:
+        - 30
+        - 50
+        - 100
+    decission_tree_regressor:
+      criterion:
+        - squared_error
+        - friedman_mse
+        - absolute_error
+        - poisson
+    gradient_boosting_regressor:
+      learning_rate:
+        - 0.1
+        - 0.01
+        - 0.05
+        - 0.001
+      subsample:
+        - 0.6
+        - 0.7
+        - 0.75
+        - 0.8
+        - 0.85
+        - 0.9
+      n_estimators:
+        - 8
+        - 16
+        - 32
+        - 64
+        - 128
+        - 256
+    kneighbors_regressor:
+      n_neighbors:
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+        - 10
+    random_forest_regressor:
+      n_estimators:
+        - 100
+        - 500
+      max_depth:
+        - 5
+        - 10
+        - 15
+    xgbregressor:
+      n_estimators:
+        - 100
+        - 500
+      max_depth:
+        - 5
+        - 10
+        - 15
+      learning_rate:
+        - 0.1
+        - 0.01
+        - 0.001
+    svregressor:
+      kernel:
+        - rbf
+        - linear
+        - poly
+      C:
+        - 0.1
+        - 1.0
+        - 10.0
+      gamma:
+        - scale
+        - auto
+
+    mlp_regressor:
+      hidden_layer_sizes:
+        - [50]
+        - [100]
+        - [50, 50]
+      activation:
+        - relu
+        - tanh
+        - logistic
+      solver:
+        - adam
+        - sgd
+      alpha:
+        - 0.0001
+        - 0.001
+        - 0.01
+      learning_rate:
+        - constant
+        - adaptive
+
+    hist_gradient_boosting_regressor:
+      learning_rate:
+        - 0.01
+        - 0.1
+        - 0.5
+      max_iter:
+        - 100
+        - 200
+        - 300
+      max_depth:
+        - 3
+        - 5
+        - 7
+      l2_regularization:
+        - 0.0
+        - 0.1
+        - 0.5
+    ridge_regressor:
+      alpha:
+        - 0.1
+        - 1.0
+        - 10.0
+        - 100.0
+      solver:
+        - auto
+        - svd
+        - cholesky
+    lasso_regressor:
+      alpha:
+        - 0.1
+        - 1.0
+        - 10.0
+        - 100.0
+    elastic_net_regressor:
+      alpha:
+        - 0.1
+        - 1.0
+        - 10.0
+      l1_ratio:
+        - 0.1
+        - 0.5
+        - 0.9
+
