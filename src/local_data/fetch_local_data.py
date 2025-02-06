@@ -3,7 +3,7 @@ import os
 import pandas as pd
 
 
-def fetch_local_data(base_dir: str):
+def fetch_local_data(base_dir: str)-> pd.DataFrame: 
     """
     This function returns a df with all the data from the config path
     """
@@ -28,9 +28,8 @@ def fetch_local_data(base_dir: str):
         final_df = pd.concat(all_dfs, ignore_index=True)
         return final_df
     else:
-        return None  # No CSV files found
+        return pd.DataFrame()
 
-    return df
 
 
 if __name__ == "__main__":

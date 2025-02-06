@@ -1,5 +1,8 @@
 {
     "yfinance": {
         "companies": ["^AEX", "NVDA"]
+    },
+    "local": {
+        "path": "/home/lucas/DE-yf-raspi/data"
     }
 }
