@@ -4,19 +4,25 @@ import streamlit as st
 import plotly.express as px
 import plotly.graph_objects as go
 
-from src.local_data.fetch_local_data import fetch_local_data
+from src.local_data.fetch_local_data import fetch_index_dict, fetch_local_data
 
 
-def view_local_data_page(config=None):
+def view_local_data_page(load_csv=False, config=None):
     st.header("Data downloaded")
-    st.session_state.df = fetch_local_data("/home/lucas/projects/DE-yf-raspi/data")
+    if load_csv:
+        st.session_state.df = fetch_local_data("/home/lucas/projects/DE-yf-raspi/data")
+        st.metric("Number of rows", len(st.session_state.df))
+        st.metric("Number of tickers", int(st.session_state.df["Ticker"].nunique()))
+        st.dataframe(st.session_state.df["Ticker"].unique())
+        df = st.session_state.df 
+        st.dataframe(df.head())
+        analysis_template(st.session_state.df)
+    else:
+        st.session_state.index_dict = fetch_index_dict("/home/lucas/projects/DE-yf-raspi/data")
 
-    st.metric("Number of rows", len(st.session_state.df))
-    st.metric("Number of tickers", int(st.session_state.df["Ticker"].nunique()))
-    st.dataframe(st.session_state.df["Ticker"].unique())
-    df = st.session_state.df 
-    st.dataframe(df.head())
-    analysis_template(st.session_state.df)
+        index_df = pd.DataFrame([(key, value, len(value)) for key, value in st.session_state.index_dict.items()], columns=["Index", "Companies", "n_companies"])
+        st.dataframe(index_df)
+
 
 
 def preprocess_data(df):
