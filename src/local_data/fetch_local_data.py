@@ -1,7 +1,25 @@
 import os
 
 import pandas as pd
+from collections import defaultdict
 
+def fetch_index_dict(base_dir: str) -> dict:
+    """
+    This function returns a dictionary where keys are folder names (indexes), 
+    and values are lists of all subfolder names inside them.
+    """
+    index_dict = defaultdict(list)
+    
+    if not os.path.exists(base_dir):
+        raise FileNotFoundError(f"Directory {base_dir} does not exist")
+    
+    for index_folder in os.listdir(base_dir):
+        index_folder_path = os.path.join(base_dir, index_folder)
+        if os.path.isdir(index_folder_path):
+            subfolders = [subfolder for subfolder in os.listdir(index_folder_path) if os.path.isdir(os.path.join(index_folder_path, subfolder))]
+            index_dict[index_folder] = subfolders
+    
+    return dict(index_dict)
 
 def fetch_local_data(base_dir: str)-> pd.DataFrame: 
     """
@@ -36,3 +54,5 @@ if __name__ == "__main__":
     df = fetch_local_data("/home/lucas/projects/DE-yf-raspi/data")
     print(df.head())
     print(len(df))
+    test_dict = fetch_index_dict("/home/lucas/projects/DE-yf-raspi/data")
+    print(test_dict)
