@@ -415,6 +415,7 @@ def display_map(data):
 
 
 def analysis_template(df: pd.DataFrame):
+    # REF: all this functions are inherited from my previous project (https://github.com/AlexanderLB98/Visualization-Proyect)
     # Includes month, season, and rolling means
     data = preprocess_data(df)
 
