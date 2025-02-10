@@ -23,10 +23,15 @@ def view_local_data_page(load_csv=False, config=None):
         index_df = pd.DataFrame([(key, value, len(value)) for key, value in st.session_state.index_dict.items()], columns=["Index", "Companies", "n_companies"])
         # Remove rows where "Companies" is empty
         index_df = index_df[index_df["n_companies"] > 0].reset_index(drop=True)
+        st.session_state.ticker_list = list(index_df["Companies"])
+        st.write(st.session_state.ticker_list)
         st.dataframe(index_df)
         st.metric("Number of Indexes", len(index_df))
         n_companies = index_df["n_companies"].sum()
         st.metric("Number of tickers/companies", n_companies)
+
+    if ["ticker_list"] in st.session_state:
+        st.write(f"Available tickers: {st.session_state.ticker_list}")
 
 
 def preprocess_data(df):
